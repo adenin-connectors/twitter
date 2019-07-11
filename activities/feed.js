@@ -26,7 +26,7 @@ module.exports = async (activity) => {
 
     const pages = $.pagination(activity);
 
-    let endpoint = `/search/tweets.json?q=${accounts}+OR+${hashtags}&tweet_mode=extended&count=${pages.pageSize * 2}`;
+    let endpoint = `/search/tweets.json?q=${accounts}+OR+${hashtags}&tweet_mode=extended&count=100`;
 
     if (pages.nextpage) endpoint += `&max_id=${pages.nextpage}`;
 
