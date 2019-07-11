@@ -24,18 +24,13 @@ module.exports = async (activity) => {
     const accounts = `from%3A${activity.Context.connector.custom2.replace(/,/g, '+OR+from%3A')}`;
     const hashtags = `%23${activity.Context.connector.custom3.replace(/,/g, '+OR+%23')}`;
 
-    // set default page size to 50
-    if (!activity.Request.Query.pageSize) activity.Request.Query.pageSize = 50;
-
     const pages = $.pagination(activity);
 
-    let maxId = '';
+    let endpoint = `/search/tweets.json?q=${accounts}+OR+${hashtags}&tweet_mode=extended&count=${pages.pageSize * 2}`;
 
-    if (pages.nextpage) maxId = pages.nextpage;
+    if (pages.nextpage) endpoint += `&max_id=${pages.nextpage}`;
 
-    const response = await api(
-      `/search/tweets.json?q=${accounts}+OR+${hashtags}&tweet_mode=extended&count=${pages.pageSize * 2}&max_id=${maxId}`
-    );
+    const response = await api(endpoint);
 
     const data = response.body;
     const map = new Map();
@@ -48,7 +43,7 @@ module.exports = async (activity) => {
 
     while (count < pages.pageSize && index < data.statuses.length) {
       // if its a nextpage request, we skip first item, as it was at the end of previous response
-      if (maxId !== '' && index === 0) {
+      if (pages.nextpage !== '' && index === 0) {
         index++;
         continue;
       }
@@ -71,8 +66,6 @@ module.exports = async (activity) => {
     }
 
     if (lastItem && lastItem.id_str) activity.Response.Data._nextpage = lastItem.id_str;
-
-    activity.Response.Data._pageSize = 50;
   } catch (error) {
     $.handleError(error, activity);
   }

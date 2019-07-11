@@ -18,10 +18,8 @@ In the details view, select _Keys and Tokens_. The _Consumer API Keys_ are what 
 
 You then simply need to add the Client ID and Client Secret from above, into those respective fields in the Connector configuration.
 
-In v2, you can also create an OAuth2Connector entry for Twitter - adding the client ID and secret from above to the OAuth2Connector entity, but also setting the access token endpoint to:
+In v2, you should create an OAuth2Connector entry for Twitter - adding the client ID and secret from above to the OAuth2Connector entity, but also setting the access token endpoint to:
 
 `https://api.twitter.com/oauth2/token`
 
 You should **leave the access code endpoint blank**, this will indicate to platform that it should attempt to use client authentication instead of regular oauth2.
-
-This token configuration is optional in v2, as the connector will default to fetching the token itself, as long as it retrieves the keys from the client. It will however save an additional HTTP request and reduce the time taken for the connector to return data.
