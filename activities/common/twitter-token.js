@@ -4,8 +4,8 @@ const got = require('got');
 
 module.exports = async (activity) => {
   const rfcEncodings = {
-    clientId: rfcEncode(activity.Context.connector.custom1),
-    apikey: rfcEncode(activity.Context.connector.apikey)
+    clientId: rfcEncode(activity.Context.connector.clientId),
+    apikey: rfcEncode(activity.Context.connector.custom1)
   };
 
   const credentials = Buffer.from(rfcEncodings.clientId + ':' + rfcEncodings.apikey).toString('base64');

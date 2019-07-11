@@ -11,7 +11,7 @@ module.exports = async (activity) => {
 
     // if still no token, return
     if (!activity.Context.connector.token) {
-      activity.Response.ErrorCode = 403;
+      activity.Response.ErrorCode = 401;
       activity.Response.Data = {
         ErrorText: 'Access token not granted'
       };
