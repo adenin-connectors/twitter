@@ -67,7 +67,7 @@ module.exports = async (activity) => {
 
     if (lastItem && lastItem.id_str) activity.Response.Data._nextpage = lastItem.id_str;
   } catch (error) {
-    $.handleError(error, activity);
+    $.handleError(activity, error);
   }
 };
 
