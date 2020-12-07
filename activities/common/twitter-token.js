@@ -1,6 +1,6 @@
 'use strict';
 
-const got = require('got');
+const api = require('./api');
 
 module.exports = async (activity) => {
   const rfcEncodings = {
@@ -19,7 +19,9 @@ module.exports = async (activity) => {
     body: 'grant_type=client_credentials'
   };
 
-  const response = await got('https://api.twitter.com/oauth2/token', opts);
+  api.initialize(activity);
+
+  const response = await api('https://api.twitter.com/oauth2/token', opts);
   const json = JSON.parse(response.body);
 
   if (json.token_type === 'bearer') return json.access_token;

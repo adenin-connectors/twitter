@@ -13,14 +13,20 @@ function api(path, opts) {
     return Promise.reject(new TypeError(`Expected \`path\` to be a string, got ${typeof path}`));
   }
 
+  let agent = {
+    http: new HttpAgent(),
+    https: new HttpsAgent()
+  };
+
+  if (_activity.Context.ProxyServer && _activity.Context.ProxyServer.agent) {
+    agent = _activity.Context.ProxyServer.agent;
+  }
+
   opts = Object.assign({
     json: true,
     token: _activity.Context.connector.token,
     endpoint: endpoint,
-    agent: {
-      http: new HttpAgent(),
-      https: new HttpsAgent()
-    }
+    agent: agent
   }, opts);
 
   opts.headers = Object.assign({
