@@ -67,11 +67,12 @@ module.exports = async (activity) => {
 
     if (lastItem && lastItem.id_str) activity.Response.Data._nextpage = lastItem.id_str;
   } catch (error) {
-    $.handleError(error, activity);
+    $.handleError(activity, error);
   }
 };
 
 function convertItem(raw) {
+  const link = `https://twitter.com/statuses/${raw.retweeted_status ? raw.retweeted_status.id_str : raw.id_str}`;
   const item = {
     user: {
       id: raw.user.id_str,
@@ -83,7 +84,7 @@ function convertItem(raw) {
     favourites: raw.favorite_count,
     retweets: raw.retweet_count,
     date: new Date(raw.created_at).toISOString(),
-    link: 'https://twitter.com/statuses/' + raw.id_str
+    link: link
   };
 
   if (raw.full_text.lastIndexOf(' https://t.co/') !== -1 && raw.full_text.charAt(raw.full_text.length - 1) !== '…') {
