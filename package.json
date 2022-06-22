@@ -11,7 +11,7 @@
     "@adenin/cf-provider": "^2.8.10",
     "agentkeepalive": "^4.1.0",
     "autolinker": "^3.11.0",
-    "got": "^9.6.0"
+    "got": "^11.8.5"
   },
   "devDependencies": {
     "@adenin/cf-logger": "^1.7.1",
